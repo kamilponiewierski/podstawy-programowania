@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,14 +13,16 @@ int check_diagonal(const int *board);
 void initBoard(int *board)
 {
     for (int i = 0; i < BOARD_SIZE; i++)
-    {
         *(board + i) = 0;
-    }
 }
-
+/// Returns 0 if a field was marked successfully
+/// Returns 1 if the field is not within board bounds
+/// Returns 2 if the field is already taken
 int markBoard(int mark, int *board, int field)
 {
-    if (field < 0 || BOARD_SIZE < field || *(board + field) != 0) return 1;
+    if (field < 0 || BOARD_SIZE < field) return 1;
+    if ( *(board + field) != 0) return 2;
+
     *(board + field) = mark;
     return 0;
 }
@@ -97,11 +98,16 @@ int main()
         printf("Gracz: %s\n", currentPlayer % 2 == 0 ? name_one : name_two);
         int field;
         scanf("%d", &field);
-        if (!markBoard(currentPlayer % 2 + 1, tab, field))
+        int failedToMark = markBoard(currentPlayer % 2 + 1, tab, field);
+        if (!failedToMark)
             currentPlayer++;
         else
         {
-            printf("Pole zajęte lub poza zakresem\n");
+            if (failedToMark == 1)
+                printf("Pole poza zakresem\n");
+            if (failedToMark == 2)
+                printf("Pole zajęte\n");
+
         }
         printBoard(tab);
         printf("\n");
@@ -109,7 +115,6 @@ int main()
 
     game_status = isGameWon(tab);
     printf("Wygrał(a): %s\n", game_status == 1 ? name_one : name_two);
-
 
     printBoard(tab);
 }
