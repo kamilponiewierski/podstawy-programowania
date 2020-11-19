@@ -7,3 +7,4 @@ set(SOURCE_FILES main.c)
 
 # Add executable target with source files listed in SOURCE_FILES variable
 add_executable(simple_example ${SOURCE_FILES})
+target_link_libraries(simple_example m)
