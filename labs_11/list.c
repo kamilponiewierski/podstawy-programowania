@@ -74,6 +74,14 @@ void destruct(List *l)
 
 List *cloneList(const List *l)
 {
+    if (l->first == NULL)
+    {
+        // Handle empty list
+        List *listCopy = constructList(0);
+        pop_front(listCopy);
+        return listCopy;
+    }
+
     List *listCopy = constructList(l->first->value);
 
     Node *origIter = l->first->next;
