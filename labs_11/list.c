@@ -183,13 +183,15 @@ void printList(List *l)
 {
     Node *curr = l->first;
 
-    if (curr == NULL)
-        printf("Empty list!");
+    printf("[");
 
     while (curr != NULL)
     {
         printf("%ld", curr->value);
         curr = curr->next;
+        if (curr != NULL) printf(", ");
     }
+
+    printf("]");
 }
 
